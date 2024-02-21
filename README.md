@@ -1,27 +1,25 @@
 ## Passo a passo para rodar o projeto
 Clone o projeto
 ```sh
-git clone https://github.com/especializati/curso-de-laravel-10.git laravel-10
+git clone git@github.com:Doginnn/jaya.git
 ```
 ```sh
-cd laravel-10/
+cd jaya
 ```
-
 
 Crie o Arquivo .env
 ```sh
 cp .env.example .env
 ```
 
-
 Atualize essas variáveis de ambiente no arquivo .env
 ```dosini
-APP_NAME="Especializa Ti"
+APP_NAME="jaya"
 APP_URL=http://localhost:8989
 
-DB_CONNECTION=mysql
-DB_HOST=mysql
-DB_PORT=3306
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
 DB_DATABASE=nome_que_desejar_db
 DB_USERNAME=nome_usuario
 DB_PASSWORD=senha_aqui
@@ -34,7 +32,6 @@ REDIS_HOST=redis
 REDIS_PASSWORD=null
 REDIS_PORT=6379
 ```
-
 
 Suba os containers do projeto
 ```sh
