@@ -30,6 +30,10 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Cria um novo usuário do sistema que rodará o Composer e o Artisan
 RUN useradd -G www-data,root -u $uid -d /home/$user $user
 
+# Definindo as variáveis de ambiente HOME e PATH para o usuário $user.
+ENV HOME /home/$user
+ENV PATH $HOME/.composer/vendor/bin:$PATH
+
 # Define o diretório home do usuário do sistema que rodará o Composer e o Artisan
 RUN mkdir -p /home/$user/.composer && \
     chown -R $user:$user /home/$user
@@ -42,12 +46,6 @@ RUN pecl install -o -f redis \
 
 # Definir diretório de trabalho
 WORKDIR /var/www
-
-# Copy custom configurations PHP
-#COPY docker/php/custom.ini /usr/local/etc/php/conf.d/custom.ini
-
-# Instalar dependências do Composer
-#RUN composer install
 
 # Define o usuário como o usuário padrão para executar comandos
 USER $user
