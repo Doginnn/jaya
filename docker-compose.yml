@@ -18,7 +18,7 @@ services:
         image: nginx:alpine
         restart: unless-stopped
         ports:
-            - "8989:80"
+            - "8000:80"
         volumes:
             - ./:/var/www
             - ./docker_nginx/nginx/:/etc/nginx/conf.d/
@@ -28,7 +28,7 @@ services:
         image: postgres:latest
         restart: unless-stopped
         ports:
-            - "5454:5454"
+            - "5432:5432"
         environment:
             POSTGRES_DB: jaya
             POSTGRES_USER: jaya_user
