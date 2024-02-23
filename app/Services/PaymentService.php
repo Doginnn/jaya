@@ -17,7 +17,6 @@ class PaymentService
 
     public function getAll(string $filter = null): array
     {
-        dd($filter);
         return $this->repository->getAll($filter);
     }
 
