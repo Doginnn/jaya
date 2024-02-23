@@ -14,7 +14,14 @@ class RequestPayment extends FormRequest
     public function rules(): array
     {
         return [
-            // tenho que definir meus parâmetros vindo do model
+            'id',
+            'transaction_amount',
+            'installments',
+            'token',
+            'payment_method_id',
+            'payer_email',
+            'payer_identification_type',
+            'payer_identification_number'
         ];
     }
 }

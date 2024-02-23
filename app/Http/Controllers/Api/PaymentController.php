@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\DTOs\PaymentDTO;
 use App\Http\Controllers\Controller;
 use App\Services\PaymentService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Validator;
 
 class PaymentController extends Controller
 {
@@ -13,64 +15,65 @@ class PaymentController extends Controller
         protected PaymentService $paymentService
     ) { }
 
-    public function index(Request $request)
+    public function index(Request $request): JsonResponse
     {
-        $payments = $this->paymentService->getAll($request->filter);
+//        dd($request);
+        $payment = $this->paymentService->getAll($request->filter);
 
-        if (!$payments) {
-            return back();
+        return response()->json($payment);
+    }
+
+    public function show(string $id): JsonResponse
+    {
+        $payment = $this->paymentService->findOne($id);
+
+        if (!$payment) {
+            return response()->json(['message' => 'Payment not found'], 404);
         }
 
-        return $payments;
+        return response()->json($payment);
     }
 
-    public function show(string $id)
+    public function store(Request $request): JsonResponse
     {
-        $payments = $this->paymentService->findOne($id);
+        $validator = Validator::make($request->all(), [
+            'transaction_amount' => 'required|numeric',
+            'installments' => 'required|integer',
+            'token' => 'required|string',
+            'payment_method_id' => 'required|string',
+            'payer_email' => 'required|email',
+            'payer_identification_type' => 'required|string',
+            'payer_identification_number' => 'required|string',
+        ]);
 
-        if (!$payments) {
-            return back();
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 400);
         }
 
-        return $payments;
-    }
-
-    public function edit(string $id)
-    {
-        $payments = $this->paymentService->findOne($id);
-
-        if (!$payments) {
-            return back();
-        }
-
-        return $payments;
-    }
-
-    public function store(Request $request)
-    {
-        $this->paymentService->create(
-            PaymentDTO::makeFromRequest($request)
-        );
-    }
-
-    public function update(Request $request, string $id)
-    {
-        $payments = $this->paymentService->update(
+        $payment = $this->paymentService->create(
             PaymentDTO::makeFromRequest($request)
         );
 
-        if (!$payments) {
-            return back();
+        return response()->json($payment, 201);
+    }
+
+    public function update(Request $request): JsonResponse
+    {
+        $payment = $this->paymentService->update(
+            PaymentDTO::makeFromRequest($request)
+        );
+
+        if (!$payment) {
+            return response()->json(['message' => 'Payment not found'], 404);
         }
 
-        return $payments;
+        return response()->json($payment);
     }
-    //PAREI AQUI - Configurar as outras funções conforme store e update
 
     public function destroy(string $id)
     {
         $this->paymentService->delete($id);
 
-        return redirect()->route('');
+        return response()->json(['message' => 'Payment deleted']);
     }
 }

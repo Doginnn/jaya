@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\DTOs\PaymentDTO;
+use App\Repositories\PaymentRepositoryInterface;
 use stdClass;
 
 class PaymentService
@@ -10,11 +11,13 @@ class PaymentService
     private $repository;
 
     public function __construct(
-        protected PaymentDTO $paymentDTO
+        protected PaymentDTO $paymentDTO,
+        protected PaymentRepositoryInterface $paymentRepository
     ) { }
 
     public function getAll(string $filter = null): array
     {
+        dd($filter);
         return $this->repository->getAll($filter);
     }
 
@@ -23,13 +26,17 @@ class PaymentService
         return $this->repository->findOne($id);
     }
 
-    public function create(PaymentDTO $paymentDTO): stdClass
+    public function create(array $requestData): stdClass
     {
+        $paymentDTO = PaymentDTO::makeFromRequest($requestData);
+
         return $this->repository->create($paymentDTO);
     }
 
-    public function update(PaymentDTO $paymentDTO): stdClass|null
+    public function update(array $requestData): stdClass|null
     {
+        $paymentDTO = PaymentDTO::makeFromRequest($requestData);
+
         return $this->repository->update($paymentDTO);
     }
 

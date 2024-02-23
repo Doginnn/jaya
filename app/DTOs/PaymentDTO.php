@@ -3,19 +3,21 @@
 namespace App\DTOs;
 
 use App\Http\Requests\RequestPayment;
-use App\Models\Payment;
 
 class PaymentDTO
 {
     public function __construct(
-        public string $id,
-        public float $transaction_amount,
-        public int $installments,
-        public string $token,
-        public string $payment_method_id,
-        public string $payer_email,
-        public string $payer_identification_type,
-        public string $payer_identification_number
+        public ?string $id = null,
+        public float $transaction_amount = 0.0,
+        public int $installments = 0,
+        public string $token = '',
+        public string $payment_method_id = '',
+        public string $payer_email = '',
+        public string $payer_identification_type = '',
+        public string $payer_identification_number = '',
+        public string $status = '',
+        public string $created_at = '',
+        public string $updated_at = ''
     ) {}
 
     public static function makeFromRequest(RequestPayment $requestPayment): self
