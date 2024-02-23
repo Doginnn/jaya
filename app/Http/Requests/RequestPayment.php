@@ -14,14 +14,14 @@ class RequestPayment extends FormRequest
     public function rules(): array
     {
         return [
-            'id',
-            'transaction_amount',
-            'installments',
-            'token',
-            'payment_method_id',
-            'payer_email',
-            'payer_identification_type',
-            'payer_identification_number'
+            'id' => 'required',
+            'transaction_amount' => 'required|numeric',
+            'installments' => 'required|integer',
+            'token' => 'required|string',
+            'payment_method_id' => 'required|string',
+            'payer_email' => 'required|email',
+            'payer_identification_type' => 'required|string',
+            'payer_identification_number' => 'required|string'
         ];
     }
 }
