@@ -14,7 +14,7 @@ class RequestPayment extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            // tenho que definir meus parâmetros vindo do model
         ];
     }
 }
