@@ -11,6 +11,8 @@ class Payment extends Model
 
     protected $table = 'payments';
 
+    public $timestamps = true;
+
     protected $fillable = [
         'transaction_amount',
         'installments',

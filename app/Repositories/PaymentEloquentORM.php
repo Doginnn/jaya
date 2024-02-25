@@ -8,9 +8,13 @@ use stdClass;
 
 class PaymentEloquentORM implements PaymentRepositoryInterface
 {
+    protected Payment $paymentModel;
+
     public function __construct(
-       protected Payment $paymentModel
-    ) {}
+        Payment $paymentModel
+    ) {
+        $this->paymentModel = $paymentModel;
+    }
 
     public function getAll(string $filter = null): array
     {
@@ -34,22 +38,20 @@ class PaymentEloquentORM implements PaymentRepositoryInterface
 
     public function create(PaymentDTO $paymentDTO): stdClass
     {
-        $payments = $this->paymentModel->create(
-            (array) $paymentDTO
-        );
-
-        return (object) $payments->toArray();
+        return $this->paymentModel->create((array) $paymentDTO);
     }
 
     public function update(PaymentDTO $paymentDTO): stdClass|null
     {
-        $payments = $this->paymentModel->find($paymentDTO->id);
+        $payment = $this->paymentModel->find($paymentDTO->id);
 
-        if (!$payments) {
+        if (!$payment) {
             return null;
         }
 
-        return (object) $payments->toArray();
+        $payment->update((array) $paymentDTO);
+
+        return $payment;
     }
 
     public function delete(string $id): void

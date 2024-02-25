@@ -3,6 +3,7 @@
 namespace App\DTOs;
 
 use App\Http\Requests\RequestPayment;
+use Carbon\Carbon;
 
 class PaymentDTO
 {
@@ -15,22 +16,21 @@ class PaymentDTO
         public string $payer_email = '',
         public string $payer_identification_type = '',
         public string $payer_identification_number = '',
-        public string $status = '',
-        public string $created_at = '',
-        public string $updated_at = ''
+        public string $status = 'PENDING'
     ) {}
 
     public static function makeFromRequest(RequestPayment $requestPayment): self
     {
         return new self(
-            $requestPayment->id,
-            $requestPayment->transaction_amount,
-            $requestPayment->installments,
-            $requestPayment->token,
-            $requestPayment->payment_method_id,
-            $requestPayment->payer_email,
-            $requestPayment->payer_identification_type,
-            $requestPayment->payer_identification_number
+            $requestPayment->id ?? '',
+            $requestPayment->transaction_amount ?? 0.0,
+            $requestPayment->installments ?? 0,
+            $requestPayment->token ?? '',
+            $requestPayment->payment_method_id ?? '',
+            $requestPayment->payer_email ?? '',
+            $requestPayment->payer_identification_type ?? '',
+            $requestPayment->payer_identification_number ?? '',
+            $requestPayment->status ?? 'PENDING'
         );
     }
 }
