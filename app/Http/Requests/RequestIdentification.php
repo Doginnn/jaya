@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RequestPayment extends FormRequest
+class RequestIdentification extends FormRequest
 {
     public function authorize(): bool
     {
@@ -15,10 +15,8 @@ class RequestPayment extends FormRequest
     {
         return [
             'id' => 'integer',
-            'transaction_amount' => 'required|numeric',
-            'installments' => 'required|integer',
-            'token' => 'required|string',
-            'payment_method_id' => 'required|string',
+            'type' => 'required|string',
+            'number' => 'required|string'
         ];
     }
 }
