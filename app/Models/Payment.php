@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Payer;
 
 class Payment extends Model
 {
@@ -23,4 +24,9 @@ class Payment extends Model
         'created_at',
         'updated_at'
     ];
+
+    public function payer()
+    {
+        return $this->belongsTo(Payer::class);
+    }
 }
