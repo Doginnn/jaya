@@ -13,19 +13,21 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
+            $table->string('status');
             $table->string('transaction_amount');
             $table->float('installments');
             $table->string('token');
             $table->string('payment_method_id');
-            $table->string('payer_entity_type')->default('individual');
-            $table->string('payer_type')->default('customer');
-            $table->string('payer_email');
-            $table->string('payer_identification_type');
-            $table->string('payer_identification_number');
             $table->string('notification_url')->default('https://webhook.site/82817158-40c3-4f3c-851c-b7abb99c43ab');
             $table->date('created_at');
             $table->date('updated_at');
-            $table->string('status');
+
+            // Adicionando a chave estrangeira para payer_id
+            $table->unsignedBigInteger('payer_id');
+            $table->foreign('payer_id')
+                ->references('id')
+                ->on('payers')
+                ->onDelete('cascade');
         });
     }
 
