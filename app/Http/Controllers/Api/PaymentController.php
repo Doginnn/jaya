@@ -8,6 +8,7 @@ use App\Http\Requests\RequestPayment;
 use App\Services\PaymentService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class PaymentController extends Controller
 {
@@ -34,7 +35,10 @@ class PaymentController extends Controller
         $payment = $this->paymentService->findOne($id);
 
         if (!$payment) {
-            return response()->json(['message' => 'Payment not found'], 404);
+            return response()->json(
+                ['message' => 'Payment not found'],
+                ResponseAlias::HTTP_NOT_FOUND
+            );
         }
 
         return response()->json($payment);
@@ -42,13 +46,9 @@ class PaymentController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-//        $payment = $this->paymentService->create(
-//            PaymentDTO::makeFromRequest($this->requestPayment)
-//        );
-
         $payment = $this->paymentService->create($request->all());
 
-        return response()->json($payment, 201);
+        return response()->json($payment, ResponseAlias::HTTP_CREATED);
     }
 
     public function update(Request $request): JsonResponse
@@ -58,7 +58,10 @@ class PaymentController extends Controller
         );
 
         if (!$payment) {
-            return response()->json(['message' => 'Payment not found'], 404);
+            return response()->json(
+                ['message' => 'Payment not found'],
+                ResponseAlias::HTTP_NOT_FOUND
+            );
         }
 
         return response()->json($payment);

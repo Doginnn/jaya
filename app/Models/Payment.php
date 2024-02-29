@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Payer;
 
 class Payment extends Model
 {
@@ -22,7 +21,8 @@ class Payment extends Model
         'payment_method_id',
         'notification_url',
         'created_at',
-        'updated_at'
+        'updated_at',
+        'payer_id'
     ];
 
     public function payer()

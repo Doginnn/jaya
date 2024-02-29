@@ -12,14 +12,13 @@ class PaymentDTO
         public float $transaction_amount = 0.0,
         public int $installments = 0,
         public string $token = '',
-        public string $payment_method_id = ''
+        public string $payment_method_id = '',
+        public string $created_at = '',
+        public string $updated_at = ''
     ) {}
 
     public static function makeFromRequest(RequestPayment $requestPayment): self
     {
-        $payer = PayerDTO::makeFromRequest($requestPayment);
-        $identification = IdentificationDTO::makeFromRequest($requestPayment);
-
         return new self(
             $requestPayment->id ?? '',
             $requestPayment->status ?? 'PENDING',
@@ -27,8 +26,8 @@ class PaymentDTO
             $requestPayment->installments ?? 0,
             $requestPayment->token ?? '',
             $requestPayment->payment_method_id ?? '',
-            $payer,
-            $identification
+            $requestPayment->created_at ?? now()->toDateString(),
+            $requestPayment->updated_at ?? now()->toDateString()
         );
     }
 }

@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Payer;
 
 class Identification extends Model
 {
@@ -12,9 +11,13 @@ class Identification extends Model
 
     protected $table = 'identifications';
 
+    public $timestamps = false;
+
     protected $fillable = [
+        'id',
         'type',
-        'number'
+        'number',
+        'payer_id'
     ];
 
     public function payer()

@@ -38,7 +38,9 @@ class PaymentEloquentORM implements PaymentRepositoryInterface
 
     public function create(PaymentDTO $paymentDTO): stdClass
     {
-        return $this->paymentModel->create((array) $paymentDTO);
+        $payment = $this->paymentModel->create((array) $paymentDTO);
+
+        return json_decode(json_encode($payment));
     }
 
     public function update(PaymentDTO $paymentDTO): stdClass|null
